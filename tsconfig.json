@@ -7,6 +7,7 @@
     "emitDecoratorMetadata": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
+    "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
       "@libs/common": ["libs/common/src"],

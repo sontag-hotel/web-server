@@ -1,5 +1,5 @@
 import {Field, ObjectType} from '@nestjs/graphql';
-import {Paginated} from '@libs/common/graphql/paginated';
+import {Paginated} from '../../common/graphql/paginated';
 
 @ObjectType()
 export class User {

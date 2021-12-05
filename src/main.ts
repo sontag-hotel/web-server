@@ -1,4 +1,4 @@
-import {loadEnvironmentVariables} from '@libs/bootstrap';
+import {loadEnvironmentVariables} from './common/bootstrap';
 import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app.module';
 
