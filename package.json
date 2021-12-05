@@ -34,6 +34,7 @@
     "@nestjs/config": "^1.1.5",
     "@nestjs/core": "^8.0.7",
     "@nestjs/graphql": "^9.0.4",
+    "@nestjs/jwt": "^8.0.0",
     "@nestjs/mongoose": "^9.0.1",
     "@nestjs/platform-express": "^8.0.7",
     "apollo-server-core": "^3.0.0",

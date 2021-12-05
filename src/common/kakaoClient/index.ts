@@ -25,17 +25,18 @@ export class KakaoClient {
   private clientID: string;
   private clientSecret: string;
 
-  constructor({clientID, clientSecret}: KakaoParams) {
-    if (!(clientID ?? process.env.KAKAO_CLIENT_ID)) {
+  constructor(kakaoParams?: KakaoParams) {
+    if (!(kakaoParams?.clientID ?? process.env.KAKAO_CLIENT_ID)) {
       throw new Error('Kakao client id is required');
     }
 
-    if (!(clientSecret ?? process.env.KAKAO_CLIENT_SECRET)) {
+    if (!(kakaoParams?.clientSecret ?? process.env.KAKAO_CLIENT_SECRET)) {
       throw new Error('Kakao client secret is required');
     }
 
-    this.clientID = (clientID ?? process.env.KAKAO_CLIENT_ID)!;
-    this.clientSecret = (clientSecret ?? process.env.KAKAO_CLIENT_SECRET)!;
+    this.clientID = kakaoParams?.clientID ?? process.env.KAKAO_CLIENT_ID!;
+    this.clientSecret =
+      kakaoParams?.clientSecret ?? process.env.KAKAO_CLIENT_SECRET!;
   }
 
   async exchangeToken(
