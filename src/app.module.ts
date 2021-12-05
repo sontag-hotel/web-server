@@ -4,6 +4,7 @@ import {MongooseModule} from '@nestjs/mongoose';
 import {GraphQLModule} from '@nestjs/graphql';
 import {ApolloServerPluginLandingPageLocalDefault} from 'apollo-server-core';
 import {MembershipModule} from './membership/membership.module';
+import {CafeModule} from './cafe/cafe.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import {MembershipModule} from './membership/membership.module';
       },
     }),
     MembershipModule,
+    CafeModule,
   ],
 })
 export class AppModule {}
