@@ -1,7 +1,7 @@
 import {Query, Resolver} from '@nestjs/graphql';
 import {plainToClass} from 'class-transformer';
 import {Public} from 'src/common/decorator/public.decorator';
-import {Cafe} from './graphql/cafe.model';
+import {Cafe} from '../graphql/cafe.model';
 
 /* Root Query가 필요해서 작성함 */
 @Resolver(() => Cafe)
