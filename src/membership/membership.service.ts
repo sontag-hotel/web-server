@@ -3,7 +3,11 @@ import {Token, Profile} from '../common/kakaoClient/type';
 import {KakaoClient} from '../common/kakaoClient';
 import {JwtService} from '@nestjs/jwt';
 import {Account, AccountDocument} from './schemas/account.schema';
-import {KakaoAuthFailedException, KakaoLoginFailedException} from './errors';
+import {
+  DuplicatedAccountException,
+  KakaoAuthFailedException,
+  KakaoLoginFailedException,
+} from './errors';
 import {InjectModel} from '@nestjs/mongoose';
 import type {Model, Schema as MongooseSchema} from 'mongoose';
 
@@ -45,10 +49,39 @@ export class MembershipService {
     return foundAccount._id;
   }
 
+  async signup(
+    input: {name: string; introductionDesc: string},
+    accessToken: string
+  ): Promise<MongooseSchema.Types.ObjectId> {
+    // TODO : transaction 관리정도는 해줘야할텐데
+
+    let kakaoUserInfo;
+    try {
+      kakaoUserInfo = await this.kakaoClient.fetchUserProfile(accessToken);
+    } catch (error) {
+      throw new KakaoAuthFailedException();
+    }
+
+    const kakaoUid = String(kakaoUserInfo.id);
+
+    const foundAccount = await this.accountModel
+      .findOne({
+        kakaoUid,
+      })
+      .lean()
+      .exec();
+
+    if (foundAccount) {
+      throw new DuplicatedAccountException();
+    }
+
+    const newAccount = new this.accountModel(input);
+    const {_id: newAccountId} = await newAccount.save();
+
+    return newAccountId;
+  }
+
   async findAccount(accountId: MongooseSchema.Types.ObjectId) {
-    console.log('serivce');
-    console.log(await this.accountModel.findById(accountId).lean().exec());
-    console.log('------------');
     return await this.accountModel.findById(accountId).lean().exec();
   }
 

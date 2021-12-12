@@ -27,3 +27,12 @@ export class UnexpectedAccountException extends BaseExtensionsException {
     });
   }
 }
+
+export class DuplicatedAccountException extends BaseExtensionsException {
+  constructor() {
+    super({
+      message: 'DUPLICATED_ACCOUNT',
+      description: '이미 연동된 카카오 계정이 존재합니다.',
+    });
+  }
+}
