@@ -7,7 +7,7 @@ import type {Model} from 'mongoose';
 type FindOneByParams = {
   _id?: string;
 };
-
+// TODO : 업어져야할 User Repository
 @Injectable()
 export class UserRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
