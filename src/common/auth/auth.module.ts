@@ -3,9 +3,11 @@ import {MongooseModule} from '@nestjs/mongoose';
 import {JwtModule} from '@nestjs/jwt';
 import {AuthUser, AuthUserSchema} from './schemas/authUser.schema';
 
-const jwtModule = JwtModule.register({
-  secret: process.env.JWT_SECRET,
-  signOptions: {expiresIn: '3d'},
+const jwtModule = JwtModule.registerAsync({
+  useFactory: () => ({
+    secret: process.env.JWT_SECRET,
+    signOptions: {expiresIn: '3d'},
+  }),
 });
 
 @Module({

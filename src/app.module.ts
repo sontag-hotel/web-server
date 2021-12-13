@@ -20,6 +20,7 @@ import {FrontendModule} from './frontend/frontend.module';
     GraphQLModule.forRootAsync({
       useFactory: () => {
         return {
+          context: ({request}) => ({request}),
           path: '/v1/graphql',
           introspection: true,
           playground: false,

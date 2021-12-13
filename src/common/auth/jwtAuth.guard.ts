@@ -39,12 +39,12 @@ export class JwtAuthGuard implements CanActivate {
     try {
       const payload = this.jwtService.verify(token);
 
-      if (!payload.id) {
+      if (!payload._id) {
         throw new UnauthorizedException();
       }
 
       const user = await this.authUserModel
-        .findOne({_id: payload.id})
+        .findOne({_id: payload._id})
         .lean()
         .exec();
 
