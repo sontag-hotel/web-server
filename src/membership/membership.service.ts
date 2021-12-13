@@ -1,16 +1,22 @@
 import {Injectable} from '@nestjs/common';
 import {Token, Profile} from '../common/kakaoClient/type';
 import {KakaoClient} from '../common/kakaoClient';
-import {AccountRepository} from './repositories/account.repository';
 import {JwtService} from '@nestjs/jwt';
-import {Account} from './schemas/account.schema';
-import {KakaoAuthFailedException, KakaoLoginFailedException} from './errors';
+import {Account, AccountDocument} from './schemas/account.schema';
+import {
+  DuplicatedAccountException,
+  KakaoAuthFailedException,
+  KakaoLoginFailedException,
+} from './errors';
+import {InjectModel} from '@nestjs/mongoose';
+import type {Model, Schema as MongooseSchema} from 'mongoose';
+
 @Injectable()
 export class MembershipService {
   private kakaoClient: KakaoClient;
 
   constructor(
-    private readonly accountRepository: AccountRepository,
+    @InjectModel(Account.name) private accountModel: Model<AccountDocument>,
     private readonly jwtService: JwtService
   ) {
     this.kakaoClient = new KakaoClient();
@@ -28,20 +34,55 @@ export class MembershipService {
       throw new KakaoAuthFailedException();
     }
 
-    const account = await this.accountRepository.findOneBy({
-      kakaoUid: String(profile.id),
-    });
+    const foundAccount = await this.accountModel
+      .findOne({
+        kakaoUid: String(profile.id),
+      })
+      .lean()
+      .exec();
 
-    if (!account) {
+    if (!foundAccount) {
       throw new KakaoLoginFailedException({
         accessToken: token.accessToken,
       });
     }
-    return account._id;
+    return foundAccount._id;
   }
 
-  async findAccount(accountId: string) {
-    return await this.accountRepository.findOneBy({_id: accountId});
+  async signup(
+    input: {name: string; introductionDesc: string},
+    accessToken: string
+  ): Promise<MongooseSchema.Types.ObjectId> {
+    // TODO : transaction 관리정도는 해줘야할텐데
+
+    let kakaoUserInfo;
+    try {
+      kakaoUserInfo = await this.kakaoClient.fetchUserProfile(accessToken);
+    } catch (error) {
+      throw new KakaoAuthFailedException();
+    }
+
+    const kakaoUid = String(kakaoUserInfo.id);
+
+    const foundAccount = await this.accountModel
+      .findOne({
+        kakaoUid,
+      })
+      .lean()
+      .exec();
+
+    if (foundAccount) {
+      throw new DuplicatedAccountException();
+    }
+
+    const newAccount = new this.accountModel(input);
+    const {_id: newAccountId} = await newAccount.save();
+
+    return newAccountId;
+  }
+
+  async findAccount(accountId: MongooseSchema.Types.ObjectId) {
+    return await this.accountModel.findById(accountId).lean().exec();
   }
 
   public generateJWT(account: Account): string {

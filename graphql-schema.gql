@@ -2,17 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Cafe {
+  name: String!
+}
+
 type Credential {
   token: String!
   me: Me!
 }
 
 type Me {
-  id: String!
-  name: String!
-}
-
-type Cafe {
+  _id: String!
   name: String!
 }
 
@@ -22,4 +22,18 @@ type Query {
 
 type Mutation {
   loginKakao(code: String!, redirectURI: String!): Credential!
+  signup(
+    input: NewAccountInput!
+
+    """구글 액세스 토큰"""
+    accessToken: String!
+  ): Credential!
+}
+
+input NewAccountInput {
+  """이름"""
+  name: String!
+
+  """소개"""
+  introductionDesc: String!
 }
