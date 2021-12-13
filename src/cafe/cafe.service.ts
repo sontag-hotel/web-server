@@ -39,14 +39,14 @@ export class CafeService {
   //   return newCafe;
   // }
 
-  async findList(thema: ThemaType): Promise<Cafe[]> {
-    const cafeList = await this.cafeModel.find()
+  async findList(thema: ThemaType): Promise<Cafe> {
+    const cafeList = await this.cafeModel.findOne({name: 'cafe 1'})
     // const cafeList = await this.cafeModel.aggregate([
     //   {
     //     $match: {thema: {$in: [thema]}}
     //   }
     // ])
     console.log("result", cafeList)
-    return cafeList;
+    return cafeList
   }
 }

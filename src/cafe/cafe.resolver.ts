@@ -13,7 +13,7 @@ export class CafeResolver {
   //   return this.cafeService.create(args);
   // }
 
-  @Query(() => [Cafe], {name: 'cafe'})
+  @Query(() => Cafe, {name: 'cafe'})
   async getCafe(@Args() args: GetCafeArgs) {
     return this.cafeService.findList(args.thema);
   }

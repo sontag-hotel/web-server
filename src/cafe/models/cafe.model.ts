@@ -1,4 +1,4 @@
-import {Field, ID, ObjectType, registerEnumType} from '@nestjs/graphql';
+import {Field, ObjectType, registerEnumType} from '@nestjs/graphql';
 // import {IsEnum} from 'class-validator';
 import {Thema} from '../constModel/const';
 import {Info} from './info.model';
@@ -10,7 +10,7 @@ registerEnumType(Thema, {
 
 @ObjectType({description: 'cafe'})
 export class Cafe {
-  @Field(()=> ID, {description: 'object id'})
+  @Field({description: 'object id'})
   _id!: string;
     // _id!: Types.ObjectId
 
