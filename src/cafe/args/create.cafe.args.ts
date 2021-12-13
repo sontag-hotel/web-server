@@ -24,8 +24,17 @@ export class CreateCafeArgs {
   startTime?: string;
 
   @Field()
-  endTime?: string;
+  endTime?: string; 
 
   @Field(() => [Thema])
   thema?: Thema[];
+
+  @Field()
+  contact?: string;
+
+  @Field()
+  locationX?: number;
+
+  @Field()
+  locationY?: number;
 }
