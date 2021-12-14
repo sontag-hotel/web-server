@@ -99,4 +99,13 @@ export class MembershipService {
     const account = this.jwtService.decode(accessToken) as Account;
     return account;
   }
+
+  async updateProfile(
+    accountId: MongooseSchema.Types.ObjectId,
+    input: {name?: string; introductionDesc?: string}
+  ) {
+    return await this.accountModel.findOneAndUpdate({_id: accountId}, input, {
+      new: true,
+    });
+  }
 }

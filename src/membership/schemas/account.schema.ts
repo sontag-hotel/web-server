@@ -14,6 +14,9 @@ export class Account {
 
   @Prop({require: true})
   kakaoUid!: string;
+
+  @Prop({require: true})
+  introductionDesc!: string;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account);

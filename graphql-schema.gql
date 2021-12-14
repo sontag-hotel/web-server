@@ -13,7 +13,12 @@ type Credential {
 
 type Me {
   _id: String!
+
+  """이름"""
   name: String!
+
+  """소개"""
+  introductionDesc: String!
 }
 
 type Query {
@@ -29,6 +34,7 @@ type Mutation {
     """구글 액세스 토큰"""
     accessToken: String!
   ): Credential!
+  updateProfile(input: UpdateProfileInput!): Me!
 }
 
 input NewAccountInput {
@@ -37,4 +43,12 @@ input NewAccountInput {
 
   """소개"""
   introductionDesc: String!
+}
+
+input UpdateProfileInput {
+  """수정할 이름"""
+  name: String
+
+  """수정할 소개"""
+  introductionDesc: String
 }
