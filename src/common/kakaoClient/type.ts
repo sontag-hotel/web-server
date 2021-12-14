@@ -4,11 +4,11 @@ export type KakaoParams = {
 };
 /* HttpResponse */
 export type ExchangeTokenResponse = {
-  tokenType: string;
-  accessToken: string;
-  expiresIn: number;
-  refreshToken: string;
-  refreshTokenExpiresIn: number;
+  token_type: string;
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+  refresh_token_expires_in: number;
   scope?: string;
 };
 
@@ -37,11 +37,11 @@ export class Token {
 
   static fromResponseData(response: ExchangeTokenResponse): Token {
     return new Token(
-      response.tokenType,
-      response.accessToken,
-      response.expiresIn,
-      response.refreshToken,
-      response.refreshTokenExpiresIn,
+      response.token_type,
+      response.access_token,
+      response.expires_in,
+      response.refresh_token,
+      response.refresh_token_expires_in,
       response.scope
     );
   }
