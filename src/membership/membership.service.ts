@@ -75,7 +75,7 @@ export class MembershipService {
       throw new DuplicatedAccountException();
     }
 
-    const newAccount = new this.accountModel(input);
+    const newAccount = new this.accountModel({...input, kakaoUid});
     const {_id: newAccountId} = await newAccount.save();
 
     return newAccountId;
