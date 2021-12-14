@@ -1,6 +1,8 @@
-import {Prop, Schema, raw, SchemaFactory} from '@nestjs/mongoose';
-import {DayArr,/* ThemaArr,*/ Thema} from '../constModel/const';
-import {SchemaTypes, Types /*, Document*/} from 'mongoose';
+import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
+import {Thema} from '../constModel/const';
+import {/*SchemaTypes, Types,*/ Document} from 'mongoose';
+import {InfoSchema, Info} from './info.schema';
+import {LocationSchema, Location} from './location.schema';
 // import * as mongoose from 'mongoose';
 
 // export const CafeSchema = new mongoose.Schema({
@@ -29,24 +31,21 @@ export type CafeDocument = Cafe & Document;
 
 @Schema({timestamps: true})
 export class Cafe {
-  @Prop({type: SchemaTypes.ObjectId})
-  _id!: Types.ObjectId;
+  @Prop()
+  _id!: string;
 
   @Prop()
   name!: string;
 
-  @Prop(
-    raw({
-      info: {
-        address: String,
-        workTime: {
-          day: [{type: String, enum: DayArr}],
-          startTime: String || null,
-          endTime: String || null,
-        },
-      },
-    })
-  )
+  @Prop({type: InfoSchema})
+  info!: Info;
+
+  @Prop()
+  contact!: string;
+
+  @Prop({type: LocationSchema})
+  location!: Location;
+
   @Prop()
   thema!: Thema[] | [];
 

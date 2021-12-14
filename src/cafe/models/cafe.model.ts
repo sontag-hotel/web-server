@@ -2,6 +2,7 @@ import {Field, ObjectType, registerEnumType} from '@nestjs/graphql';
 // import {IsEnum} from 'class-validator';
 import {Thema} from '../constModel/const';
 import {Info} from './info.model';
+import {Location} from './location.model';
 // import { Types, SchemaTypes } from 'mongoose'
 
 registerEnumType(Thema, {
@@ -12,7 +13,7 @@ registerEnumType(Thema, {
 export class Cafe {
   @Field({description: 'object id'})
   _id!: string;
-    // _id!: Types.ObjectId
+  // _id!: Types.ObjectId
 
   @Field()
   name!: string;
@@ -28,8 +29,14 @@ export class Cafe {
   //     }
   // }
 
-  @Field(() => [Thema])
-  thema!: Thema[];
+  @Field()
+  contact!: string;
+
+  @Field()
+  location!: Location;
+
+  @Field(() => [Thema] || [])
+  thema!: Thema[] | [];
 
   @Field()
   created_at!: Date;

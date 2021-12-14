@@ -1,4 +1,4 @@
-import {Resolver, Args, Query/*, Mutation*/} from '@nestjs/graphql';
+import {Resolver, Args, Query /*, Mutation*/} from '@nestjs/graphql';
 import {Cafe} from './models/cafe.model';
 import {CafeService} from './cafe.service';
 // import {CreateCafeArgs} from './args/create.cafe.args';
@@ -13,8 +13,13 @@ export class CafeResolver {
   //   return this.cafeService.create(args);
   // }
 
-  @Query(() => Cafe, {name: 'cafe'})
-  async getCafe(@Args() args: GetCafeArgs) {
-    return this.cafeService.findList(args.thema);
+  @Query(() => [Cafe], {name: 'cafe'})
+  async getCafe(@Args() args: GetCafeArgs): Promise<Cafe[]> {
+    return await this.cafeService.findList(args.thema);
+  }
+
+  @Query(() => [Cafe])
+  async getAllCafe(): Promise<Cafe[]> {
+    return await this.cafeService.find();
   }
 }
