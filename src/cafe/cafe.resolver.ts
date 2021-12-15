@@ -27,7 +27,7 @@ export class CafeResolver {
   //카페 생성 mutation
   @Mutation(() => Cafe)
   async createCafe(
-    @Args(/*arg 이름 넣기*/) args: CreateCafeArgs
+    @Args('args') args: CreateCafeArgs
   ): Promise<Cafe> {
     return await this.cafeService.create(args);
   }
