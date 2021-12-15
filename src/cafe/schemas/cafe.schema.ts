@@ -29,7 +29,7 @@ import {LocationSchema, Location} from './location.schema';
 
 export type CafeDocument = Cafe & Document;
 
-@Schema({timestamps: true})
+@Schema({collection: 'cafes'})
 export class Cafe {
   @Prop()
   _id!: string;
@@ -47,7 +47,7 @@ export class Cafe {
   location!: Location;
 
   @Prop()
-  thema!: Thema[] | [];
+  thema!: Thema[];
 
   @Prop()
   created_at!: Date;

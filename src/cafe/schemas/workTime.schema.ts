@@ -7,7 +7,7 @@ export type WorkTimeDocument = WorkTime & Document;
 @Schema()
 export class WorkTime {
   @Prop()
-  day!: Day[] | [];
+  day!: Day[];
 
   @Prop()
   startTime!: string;

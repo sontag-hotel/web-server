@@ -8,6 +8,9 @@ export interface CreateArgs {
   startTime?: string;
   endTime?: string;
   thema?: ThemaType[];
+  contact?: string;
+  locationX?: number;
+  locationY?: number;
 }
 
 export interface GetCafeArgs {
