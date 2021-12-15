@@ -38,28 +38,25 @@ export class CafeService {
   }
 
   async create(Args: CreateArgs): Promise<Cafe> {
-    const newCafe = await this.cafeModel.create(
-      {
-        name: Args.name ? Args.name : null,
-        info: {
-          address: Args.address ? Args.address : null,
-          workTime: {
-            day: Args.day ? Args.day : null,
-            startTime: Args.startTime ? Args.startTime : null,
-            endTime: Args.endTime ? Args.endTime : null,
-          },
+    const newCafe = await this.cafeModel.create({
+      name: Args.name ? Args.name : null,
+      info: {
+        address: Args.address ? Args.address : null,
+        workTime: {
+          day: Args.day ? Args.day : null,
+          startTime: Args.startTime ? Args.startTime : null,
+          endTime: Args.endTime ? Args.endTime : null,
         },
-        contact: Args.contact ? Args.contact : null,
-        location: {
-          x: Args.locationX ? Args.locationX : null,
-          y: Args.locationY ? Args.locationY : null,
-        },
-        thema: Args.thema ? Args.thema : null,
       },
-      {
-        timestamps: true,
-      }
-    );
+      contact: Args.contact ? Args.contact : null,
+      location: {
+        x: Args.locationX ? Args.locationX : null,
+        y: Args.locationY ? Args.locationY : null,
+      },
+      thema: Args.thema ? Args.thema : null,
+      created_at: new Date(),
+      updated_at: new Date(),
+    });
     return newCafe;
   }
 }

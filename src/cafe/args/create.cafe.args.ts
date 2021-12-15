@@ -1,4 +1,8 @@
-import {Field, InputType, registerEnumType} from '@nestjs/graphql';
+import {
+  Field,
+  InputType /*, ArgsType*/,
+  registerEnumType,
+} from '@nestjs/graphql';
 import {Day, Thema /*,  DayType,  ThemaType*/} from '../constModel/const';
 
 registerEnumType(Day, {
@@ -9,8 +13,10 @@ registerEnumType(Thema, {
   name: 'Thema',
 });
 
-@InputType({description: 'New cafe data'})
+@InputType({description: 'New cafe create mutation args'})
 export class CreateCafeArgs {
+  // @Field()
+  // args?: CreateCafeArgsObject;
   @Field()
   name?: string;
 
@@ -38,3 +44,7 @@ export class CreateCafeArgs {
   @Field()
   locationY?: number;
 }
+
+// @ArgsType()
+// class CreateCafeArgsObject {
+// }
