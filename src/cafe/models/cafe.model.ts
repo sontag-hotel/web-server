@@ -1,33 +1,54 @@
 import {Field, ObjectType, registerEnumType} from '@nestjs/graphql';
-// import {IsEnum} from 'class-validator';
-import {Thema /*, ThemaType*/} from '../constModel/const';
-import {Info} from './info.model';
-import {Location} from './location.model';
-// import { Types, SchemaTypes } from 'mongoose'
+import {Thema, Day} from '../constModel/const';
 
 registerEnumType(Thema, {
   name: 'Thema',
 });
 
+registerEnumType(Day, {
+  name: 'Day',
+});
+
+@ObjectType({description: 'cafe.info.workTime'})
+class WorkTime {
+  @Field(() => [Day])
+  day!: Day[];
+
+  @Field({nullable: true})
+  startTime!: string;
+
+  @Field({nullable: true})
+  endTime!: string;
+}
+
+@ObjectType({description: 'cafe.info'})
+class Info {
+  @Field()
+  address!: string;
+
+  @Field()
+  workTime!: WorkTime;
+}
+
+@ObjectType({description: 'cafe.location'})
+class Location {
+  @Field()
+  x!: number;
+
+  @Field()
+  y!: number;
+}
+
 @ObjectType({description: 'cafe'})
 export class Cafe {
   @Field({description: 'object id'})
-  _id!: string;
-  // _id!: Types.ObjectId
+  _id?: string;
 
   @Field()
   name!: string;
 
   @Field()
   info!: Info;
-  // info!: {
-  //     address: string;
-  //     workTime: {
-  //         day: Day[] | null;
-  //         startTime: string | null;
-  //         endTime: string | null
-  //     }
-  // }
 
   @Field()
   contact!: string;

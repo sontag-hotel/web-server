@@ -4,11 +4,8 @@ import {/*SchemaTypes, Types,*/ Document} from 'mongoose';
 
 export type CafeUserDocument = CafeUser & Document;
 
-@Schema({collection: 'cafes'})
+@Schema({collection: 'cafe_users'})
 export class CafeUser {
-  @Prop()
-  _id!: string;
-
   @Prop()
   userId!: string;
 

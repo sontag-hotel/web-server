@@ -1,26 +1,55 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import {Thema} from '../constModel/const';
-import {/*SchemaTypes, Types,*/ Document} from 'mongoose';
-import {InfoSchema, Info} from './info.schema';
-import {LocationSchema, Location} from './location.schema';
+import {ObjectType} from '@nestjs/graphql';
+import {Document} from 'mongoose';
+import {Day, Thema} from '../constModel/const';
 
 export type CafeDocument = Cafe & Document;
 
-@Schema({collection: 'cafes'})
-export class Cafe {
+@ObjectType()
+class WorkTime {
   @Prop()
-  _id!: string;
+  day!: Day[];
+
+  @Prop()
+  startTime!: string;
+
+  @Prop()
+  endTime!: string;
+}
+
+@ObjectType()
+class Info {
+  @Prop()
+  address!: string;
+
+  @Prop()
+  workTime!: WorkTime;
+}
+
+@ObjectType()
+class Location {
+  @Prop()
+  x!: number;
+
+  @Prop()
+  y!: number;
+}
+
+@Schema({collection: 'cafes', versionKey: false})
+export class Cafe {
+  // @Prop()
+  // _id?: string;
 
   @Prop()
   name!: string;
 
-  @Prop({type: InfoSchema})
+  @Prop()
   info!: Info;
 
   @Prop()
   contact!: string;
 
-  @Prop({type: LocationSchema})
+  @Prop()
   location!: Location;
 
   @Prop()

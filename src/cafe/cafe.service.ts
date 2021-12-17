@@ -2,15 +2,31 @@ import {Injectable /*, Inject*/} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model /*, Types*/} from 'mongoose';
 import {Cafe, CafeDocument} from './schemas/cafe.schema';
+import {/*CafeUser,*/ CafeUserDocument} from './schemas/cafeUser.schema';
 import {/*Thema,*/ ThemaType} from './constModel/const';
 import {CreateArgs /*, GetCafeArgs*/} from './constModel/interface';
+// import {CreateCafeUserArgs} from './constModel/'
+
+// @Injectable()
+// export class CafeUserService {
+//   constructor(
+//     @InjectModel(CafeUser.name)
+//     private readonly cafeUserModel: Model<CafeUserDocument>
+//   ) {}
+// }
 
 @Injectable()
 export class CafeService {
   constructor(
     @InjectModel(Cafe.name)
-    private readonly cafeModel: Model<CafeDocument>
+    private readonly cafeModel: Model<CafeDocument>,
+    private readonly cafeUserModel: Model<CafeUserDocument>
   ) {}
+
+  // constructor(
+  //   @InjectModel(CafeUser.name)
+  //   private readonly cafeUserModel: Model<CafeUserDocument>
+  // ) {}
 
   /* ------  Test Method  ------ */
 
@@ -43,7 +59,7 @@ export class CafeService {
       info: {
         address: Args.address ? Args.address : null,
         workTime: {
-          day: Args.day ? Args.day : null,
+          day: Args.day ? Args.day : [],
           startTime: Args.startTime ? Args.startTime : null,
           endTime: Args.endTime ? Args.endTime : null,
         },
@@ -53,10 +69,20 @@ export class CafeService {
         x: Args.locationX ? Args.locationX : null,
         y: Args.locationY ? Args.locationY : null,
       },
-      thema: Args.thema ? Args.thema : null,
+      thema: Args.thema ? Args.thema : [],
       created_at: new Date(),
       updated_at: new Date(),
     });
+
+    const newCafeUser = await this.cafeUserModel.create({
+      userId: newCafe._id, //나중에 유저 object id 또는 그냥 id값 받아서 입력
+      cafeId: newCafe._id,
+      thema: Args.thema,
+      created_at: new Date(),
+      updated_at: new Date(),
+    });
+
+    console.log('new cafe user data', newCafeUser);
     return newCafe;
   }
 }
