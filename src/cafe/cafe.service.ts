@@ -2,7 +2,7 @@ import {Injectable /*, Inject*/} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model /*, Types*/} from 'mongoose';
 import {Cafe, CafeDocument} from './schemas/cafe.schema';
-import {/*CafeUser,*/ CafeUserDocument} from './schemas/cafeUser.schema';
+import {CafeUser, CafeUserDocument} from './schemas/cafeUser.schema';
 import {/*Thema,*/ ThemaType} from './constModel/const';
 import {CreateArgs /*, GetCafeArgs*/} from './constModel/interface';
 // import {CreateCafeUserArgs} from './constModel/'
@@ -18,8 +18,19 @@ import {CreateArgs /*, GetCafeArgs*/} from './constModel/interface';
 @Injectable()
 export class CafeService {
   constructor(
+    // beforeEach(async () => {
+    //   const module: TestingModule = await Test.createTestingModule({
+    //     providers: [
+    //       AuthService,
+    //       {provide: JwtService, useValue: jwtServiceMock},
+    //       {provide: AuthHelper, useValue: authHelperMock},
+    //     ],
+    //   }).compile()
+
     @InjectModel(Cafe.name)
     private readonly cafeModel: Model<CafeDocument>,
+
+    @InjectModel(CafeUser.name)
     private readonly cafeUserModel: Model<CafeUserDocument>
   ) {}
 

@@ -1,10 +1,13 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import {Thema} from '../constModel/const';
+import {
+  Thema, 
+  // ThemaType
+} from '../constModel/const';
 import {/*SchemaTypes, Types,*/ Document} from 'mongoose';
 
 export type CafeUserDocument = CafeUser & Document;
 
-@Schema({collection: 'cafe_users'})
+@Schema({collection: 'cafe_users', versionKey: false})
 export class CafeUser {
   @Prop()
   userId!: string;
@@ -12,8 +15,8 @@ export class CafeUser {
   @Prop()
   cafeId!: string;
 
-  @Prop()
-  thema!: Thema;
+  @Prop({type: String})
+  thema!: Thema
 
   @Prop()
   created_at!: Date;
