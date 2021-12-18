@@ -41,6 +41,17 @@ export class CafeService {
     return targetList;
   }
 
+  //범위 내 카페 조회
+  async findRange({left, right, up, down}): Promise<Cafe[]> {
+    const targetList = await this.cafeModel.aggregate([
+      {
+        $match: {},
+      },
+    ]);
+    return targetList;
+  }
+
+  //카페 등록
   async create(Args: CreateArgs): Promise<Cafe> {
     const newCafe = await this.cafeModel.create({
       name: Args.name ? Args.name : null,
