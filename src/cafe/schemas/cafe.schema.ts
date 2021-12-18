@@ -1,7 +1,7 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {ObjectType} from '@nestjs/graphql';
 import {Document} from 'mongoose';
-import {Day, Thema} from '../constModel/const';
+import {Day, Theme} from '../constModel/const';
 
 export type CafeDocument = Cafe & Document;
 
@@ -50,7 +50,7 @@ export class Cafe {
   location!: Location;
 
   @Prop()
-  thema!: Thema[];
+  theme!: Theme[];
 
   @Prop()
   created_at!: Date;

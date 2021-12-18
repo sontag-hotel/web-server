@@ -1,10 +1,11 @@
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {Model} from 'mongoose';
+import {Model, Types} from 'mongoose';
 import {Cafe, CafeDocument} from './schemas/cafe.schema';
 import {CafeUser, CafeUserDocument} from './schemas/cafeUser.schema';
-import {/*Thema,*/ ThemaType} from './constModel/const';
-import {CreateArgs /*, GetCafeArgs*/} from './constModel/interface';
+import {ThemeType} from './constModel/const';
+import {CreateArgs} from './constModel/interface';
+import {CafeCard} from './models/cafe.card.model';
 
 @Injectable()
 export class CafeService {
@@ -26,26 +27,10 @@ export class CafeService {
   /* ------  Usage Method  ------ */
 
   //테마별 카페 조회
-  async findList(thema: ThemaType): Promise<Cafe[]> {
-    // const cafeList = await this.cafeModel.findOne({name: 'cafe1'});
-    console.log('params', thema);
-    console.log('col doc length', await this.cafeModel.count());
+  async findList(theme: ThemeType): Promise<CafeCard[]> {
     const targetList = await this.cafeModel.aggregate([
       {
-        $match: {thema: {$in: [thema]}},
-      },
-    ]);
-    // console.log('result', cafeList);
-    console.log('result2', targetList);
-    // if (!cafeList) throw new Error('nothing matched');
-    return targetList;
-  }
-
-  //범위 내 카페 조회
-  async findRange({left, right, up, down}): Promise<Cafe[]> {
-    const targetList = await this.cafeModel.aggregate([
-      {
-        $match: {},
+        $match: {theme: {$in: [theme]}},
       },
     ]);
     return targetList;
@@ -68,15 +53,15 @@ export class CafeService {
         x: Args.locationX ? Args.locationX : null,
         y: Args.locationY ? Args.locationY : null,
       },
-      thema: Args.thema ? [Args.thema] : [],
+      theme: Args.theme ? [Args.theme] : [],
       created_at: new Date(),
       updated_at: new Date(),
     });
 
     const newCafeUser = await this.cafeUserModel.create({
-      userId: newCafe._id, //나중에 유저 object id 또는 그냥 id값 받아서 입력
-      cafeId: newCafe._id,
-      thema: Args.thema,
+      userId: new Types.ObjectId(newCafe._id), //나중에 유저 object id 또는 그냥 id값 받아서 입력
+      cafeId: new Types.ObjectId(newCafe._id),
+      theme: Args.theme,
       created_at: new Date(),
       updated_at: new Date(),
     });

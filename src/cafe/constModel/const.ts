@@ -1,5 +1,5 @@
 export const DayArr = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-export const ThemaArr = ['MOOD', 'WORK', 'TASTE'];
+export const ThemeArr = ['MOOD', 'WORK', 'TASTE'];
 
 export enum Day {
   MON = 'MON',
@@ -10,7 +10,7 @@ export enum Day {
   SAT = 'SAT',
   SUN = 'SUN',
 }
-export enum Thema {
+export enum Theme {
   MOOD = 'MOOD',
   WORK = 'WORK',
   TASTE = 'TASTE',
@@ -18,4 +18,4 @@ export enum Thema {
 
 export type DayType = 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT' | 'SUN';
 
-export type ThemaType = 'MOOD' | 'WORK' | 'TASTE';
+export type ThemeType = 'MOOD' | 'WORK' | 'TASTE';

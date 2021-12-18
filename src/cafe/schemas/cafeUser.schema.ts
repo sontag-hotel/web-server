@@ -1,5 +1,5 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import {Thema} from '../constModel/const';
+import {Theme} from '../constModel/const';
 import {Document} from 'mongoose';
 
 export type CafeUserDocument = CafeUser & Document;
@@ -13,7 +13,7 @@ export class CafeUser {
   cafeId!: string;
 
   @Prop({type: String})
-  thema!: Thema;
+  theme!: Theme;
 
   @Prop()
   created_at!: Date;

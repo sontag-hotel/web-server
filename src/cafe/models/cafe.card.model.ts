@@ -39,8 +39,17 @@ class Location {
   y!: number;
 }
 
-@ObjectType({description: 'cafe'})
-export class Cafe {
+@ObjectType({description: 'cafe.cafeUserList'})
+class CafeUserList {
+  @Field()
+  userList!: string[];
+
+  @Field()
+  count!: number;
+}
+
+@ObjectType({description: 'cafe card'})
+export class CafeCard {
   @Field({description: 'object id'})
   _id?: string;
 
@@ -58,6 +67,9 @@ export class Cafe {
 
   @Field(() => [Theme])
   theme!: Theme[];
+
+  @Field()
+  cafeUserList!: CafeUserList;
 
   @Field()
   created_at!: Date;

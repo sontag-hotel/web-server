@@ -49,12 +49,12 @@ type Cafe {
   info: Info!
   contact: String!
   location: Location!
-  thema: [Thema!]!
+  theme: [Theme!]!
   created_at: DateTime!
   updated_at: DateTime!
 }
 
-enum Thema {
+enum Theme {
   MOOD
   WORK
   TASTE
@@ -67,7 +67,7 @@ scalar DateTime
 
 type Query {
   getAllCafe: [Cafe!]!
-  Cafe(thema: Thema!): [Cafe!]
+  Cafe(theme: Theme!): [Cafe!]
 }
 
 type Mutation {
@@ -82,7 +82,7 @@ input CreateCafeArgs {
   day: [Day!]
   startTime: String
   endTime: String
-  thema: Thema
+  theme: Theme
   contact: String
   locationX: Float
   locationY: Float

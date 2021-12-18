@@ -1,13 +1,13 @@
 import {Field, InputType, registerEnumType} from '@nestjs/graphql';
-import {Day, Thema} from '../constModel/const';
+import {Day, Theme} from '../constModel/const';
 
 //enum 형식 지정
 registerEnumType(Day, {
   name: 'Day',
 });
 
-registerEnumType(Thema, {
-  name: 'Thema',
+registerEnumType(Theme, {
+  name: 'Theme',
 });
 
 //새로운 카페 등록 시 input 구조
@@ -28,8 +28,8 @@ export class CreateCafeArgs {
   @Field({nullable: true})
   endTime?: string;
 
-  @Field(() => Thema, {nullable: true})
-  thema?: Thema;
+  @Field(() => Theme, {nullable: true})
+  theme?: Theme;
 
   @Field({nullable: true})
   contact?: string;

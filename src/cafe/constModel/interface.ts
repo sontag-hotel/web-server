@@ -1,4 +1,4 @@
-import {DayType, ThemaType} from './const'; //인터페이스에는 타입을 import
+import {DayType, ThemeType} from './const'; //인터페이스에는 타입을 import
 
 export interface CreateArgs {
   name?: string;
@@ -6,12 +6,12 @@ export interface CreateArgs {
   day?: DayType[];
   startTime?: string;
   endTime?: string;
-  thema?: ThemaType;
+  theme?: ThemeType;
   contact?: string;
   locationX?: number;
   locationY?: number;
 }
 
 export interface GetCafeArgs {
-  thema: ThemaType;
+  theme: ThemeType;
 }
