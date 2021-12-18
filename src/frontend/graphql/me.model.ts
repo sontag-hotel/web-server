@@ -6,6 +6,9 @@ export class Me {
   @Field(() => String)
   _id!: MongooseSchema.Types.ObjectId;
 
-  @Field()
+  @Field({description: '이름'})
   name!: string;
+
+  @Field({description: '소개'})
+  introductionDesc!: string;
 }
