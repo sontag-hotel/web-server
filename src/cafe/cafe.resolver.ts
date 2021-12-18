@@ -21,7 +21,7 @@ export class CafeResolver {
   //테마별 카페 query method
   @Query(() => [Cafe], {name: Cafe.name, nullable: true})
   async getCafe(@Args() args: GetCafeArgs): Promise<Cafe[]> {
-    return await this.cafeService.findList(args.thema);
+    return await this.cafeService.findList(args.theme);
   }
 
   //카페 생성 mutation

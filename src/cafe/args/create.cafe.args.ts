@@ -4,14 +4,14 @@ import {
   // ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
-import {Day, Thema /*,  DayType,  ThemaType*/} from '../constModel/const';
+import {Day, Theme /*,  DayType,  ThemeType*/} from '../constModel/const';
 
 registerEnumType(Day, {
   name: 'Day',
 });
 
-registerEnumType(Thema, {
-  name: 'Thema',
+registerEnumType(Theme, {
+  name: 'Theme',
 });
 
 // @ObjectType()
@@ -35,8 +35,8 @@ registerEnumType(Thema, {
   @Field()
   endTime?: string;
   
-  @Field(() => [Thema])
-  thema?: Thema[];
+  @Field(() => [Theme])
+  theme?: Theme[];
   
   @Field()
   contact?: string;

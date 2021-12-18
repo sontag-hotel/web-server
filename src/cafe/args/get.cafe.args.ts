@@ -1,12 +1,12 @@
 import {Field, ArgsType, registerEnumType} from '@nestjs/graphql';
-import {Thema} from '../constModel/const';
+import {Theme} from '../constModel/const';
 
-registerEnumType(Thema, {
-  name: 'Thema',
+registerEnumType(Theme, {
+  name: 'Theme',
 });
 
 @ArgsType()
 export class GetCafeArgs {
-  @Field(() => Thema)
-  thema!: Thema;
+  @Field(() => Theme)
+  theme!: Theme;
 }

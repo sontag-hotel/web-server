@@ -1,4 +1,4 @@
-import {DayType, ThemaType} from './const'; //인터페이스에는 타입을 import
+import {DayType, ThemeType} from './const'; //인터페이스에는 타입을 import
 import {Document, Types} from 'mongoose';
 
 export interface CreateArgs {
@@ -7,14 +7,14 @@ export interface CreateArgs {
   day?: DayType[];
   startTime?: string;
   endTime?: string;
-  thema?: ThemaType[];
+  theme?: ThemeType[];
   contact?: string;
   locationX?: number;
   locationY?: number;
 }
 
 export interface GetCafeArgs {
-  thema: ThemaType;
+  theme: ThemeType;
   //   _id?: string;
 }
 
@@ -29,7 +29,7 @@ export interface Cafe extends Document {
       endTime: string | null;
     };
   };
-  readonly thema: ThemaType[] | [];
+  readonly theme: ThemeType[] | [];
   readonly created_at: Date;
   readonly updated_at: Date;
 }

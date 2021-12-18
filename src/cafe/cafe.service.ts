@@ -2,7 +2,7 @@ import {Injectable /*, Inject*/} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model /*, Types*/} from 'mongoose';
 import {Cafe, CafeDocument} from './schemas/cafe.schema';
-import {/*Thema,*/ ThemaType} from './constModel/const';
+import {/*Thema,*/ ThemeType} from './constModel/const';
 import {CreateArgs /*, GetCafeArgs*/} from './constModel/interface';
 
 @Injectable()
@@ -22,13 +22,13 @@ export class CafeService {
   /* ------  Usage Method  ------ */
 
   //테마별 카페 조회
-  async findList(thema: ThemaType): Promise<Cafe[]> {
+  async findList(theme: ThemeType): Promise<Cafe[]> {
     // const cafeList = await this.cafeModel.findOne({name: 'cafe1'});
-    console.log('params', thema);
+    console.log('params', theme);
     console.log('col doc length', await this.cafeModel.count());
     const targetList = await this.cafeModel.aggregate([
       {
-        $match: {thema: {$in: [thema]}},
+        $match: {theme: {$in: [theme]}},
       },
     ]);
     // console.log('result', cafeList);
@@ -53,7 +53,7 @@ export class CafeService {
         x: Args.locationX ? Args.locationX : null,
         y: Args.locationY ? Args.locationY : null,
       },
-      thema: Args.thema ? Args.thema : null,
+      theme: Args.theme ? Args.theme : null,
       created_at: new Date(),
       updated_at: new Date(),
     });

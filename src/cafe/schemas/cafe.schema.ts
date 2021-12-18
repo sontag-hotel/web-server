@@ -1,5 +1,5 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import {Thema} from '../constModel/const';
+import {Theme} from '../constModel/const';
 import {/*SchemaTypes, Types,*/ Document} from 'mongoose';
 import {InfoSchema, Info} from './info.schema';
 import {LocationSchema, Location} from './location.schema';
@@ -19,9 +19,9 @@ import {LocationSchema, Location} from './location.schema';
 //       endTime: String || null
 //     }
 //   },
-//   thema: {
+//   theme: {
 //     type: String,
-//     enum: ThemaArr
+//     enum: ThemeArr
 //   },
 //   created_at: Date,
 //   updated_at: Date
@@ -47,7 +47,7 @@ export class Cafe {
   location!: Location;
 
   @Prop()
-  thema!: Thema[];
+  theme!: Theme[];
 
   @Prop()
   created_at!: Date;
