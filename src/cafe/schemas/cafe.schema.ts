@@ -37,9 +37,6 @@ class Location {
 
 @Schema({collection: 'cafes', versionKey: false})
 export class Cafe {
-  // @Prop()
-  // _id?: string;
-
   @Prop()
   name!: string;
 

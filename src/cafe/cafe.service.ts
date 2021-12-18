@@ -1,43 +1,20 @@
-import {Injectable /*, Inject*/} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {Model /*, Types*/} from 'mongoose';
+import {Model} from 'mongoose';
 import {Cafe, CafeDocument} from './schemas/cafe.schema';
 import {CafeUser, CafeUserDocument} from './schemas/cafeUser.schema';
 import {/*Thema,*/ ThemaType} from './constModel/const';
 import {CreateArgs /*, GetCafeArgs*/} from './constModel/interface';
-// import {CreateCafeUserArgs} from './constModel/'
-
-// @Injectable()
-// export class CafeUserService {
-//   constructor(
-//     @InjectModel(CafeUser.name)
-//     private readonly cafeUserModel: Model<CafeUserDocument>
-//   ) {}
-// }
 
 @Injectable()
 export class CafeService {
   constructor(
-    // beforeEach(async () => {
-    //   const module: TestingModule = await Test.createTestingModule({
-    //     providers: [
-    //       AuthService,
-    //       {provide: JwtService, useValue: jwtServiceMock},
-    //       {provide: AuthHelper, useValue: authHelperMock},
-    //     ],
-    //   }).compile()
-
     @InjectModel(Cafe.name)
     private readonly cafeModel: Model<CafeDocument>,
 
     @InjectModel(CafeUser.name)
     private readonly cafeUserModel: Model<CafeUserDocument>
   ) {}
-
-  // constructor(
-  //   @InjectModel(CafeUser.name)
-  //   private readonly cafeUserModel: Model<CafeUserDocument>
-  // ) {}
 
   /* ------  Test Method  ------ */
 
@@ -80,7 +57,7 @@ export class CafeService {
         x: Args.locationX ? Args.locationX : null,
         y: Args.locationY ? Args.locationY : null,
       },
-      thema: Args.thema ? Args.thema : [],
+      thema: Args.thema ? [Args.thema] : [],
       created_at: new Date(),
       updated_at: new Date(),
     });

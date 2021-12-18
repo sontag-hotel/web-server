@@ -1,11 +1,7 @@
-import {
-  Field,
-  InputType,
-  // ObjectType,
-  registerEnumType,
-} from '@nestjs/graphql';
-import {Day, Thema /*,  DayType,  ThemaType*/} from '../constModel/const';
+import {Field, InputType, registerEnumType} from '@nestjs/graphql';
+import {Day, Thema} from '../constModel/const';
 
+//enum 형식 지정
 registerEnumType(Day, {
   name: 'Day',
 });
@@ -14,10 +10,7 @@ registerEnumType(Thema, {
   name: 'Thema',
 });
 
-// @ObjectType()
-// class CreateCafeArgsObject {
-// }
-
+//새로운 카페 등록 시 input 구조
 @InputType({description: 'New cafe create mutation args'})
 export class CreateCafeArgs {
   @Field({nullable: true})
@@ -35,8 +28,8 @@ export class CreateCafeArgs {
   @Field({nullable: true})
   endTime?: string;
 
-  @Field(() => [Thema], {nullable: true})
-  thema?: Thema[];
+  @Field(() => Thema, {nullable: true})
+  thema?: Thema;
 
   @Field({nullable: true})
   contact?: string;
@@ -46,6 +39,4 @@ export class CreateCafeArgs {
 
   @Field({nullable: true})
   locationY?: number;
-  // @Field(() => CreateCafeArgsObject)
-  // args!: CreateCafeArgsObject;
 }

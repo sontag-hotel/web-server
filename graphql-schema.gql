@@ -12,14 +12,78 @@ type Me {
   name: String!
 }
 
-type Cafe {
-  name: String!
+"""cafe.info.workTime"""
+type WorkTime {
+  day: [Day!]!
+  startTime: String
+  endTime: String
 }
 
+enum Day {
+  MON
+  TUE
+  WED
+  THU
+  FRI
+  SAT
+  SUN
+}
+
+"""cafe.info"""
+type Info {
+  address: String!
+  workTime: WorkTime!
+}
+
+"""cafe.location"""
+type Location {
+  x: Float!
+  y: Float!
+}
+
+"""cafe"""
+type Cafe {
+  """object id"""
+  _id: String!
+  name: String!
+  info: Info!
+  contact: String!
+  location: Location!
+  thema: [Thema!]!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+enum Thema {
+  MOOD
+  WORK
+  TASTE
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
-  cafeList: Cafe!
+  getAllCafe: [Cafe!]!
+  Cafe(thema: Thema!): [Cafe!]
 }
 
 type Mutation {
   loginKakao(code: String!, redirectURI: String!): Credential!
+  createCafe(args: CreateCafeArgs!): Cafe!
+}
+
+"""New cafe create mutation args"""
+input CreateCafeArgs {
+  name: String
+  address: String
+  day: [Day!]
+  startTime: String
+  endTime: String
+  thema: Thema
+  contact: String
+  locationX: Float
+  locationY: Float
 }
