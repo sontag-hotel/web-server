@@ -87,12 +87,14 @@ export class MembershipService {
 
   public generateJWT(account: Account): string {
     const accessToken = this.jwtService.sign({
+      _id: account._id,
       name: account.name,
     });
 
     return accessToken;
   }
 
+  // TODO : decode JWT should not return Account
   public decodeJWT(accessToken: string): Account {
     const account = this.jwtService.decode(accessToken) as Account;
     return account;
