@@ -1,53 +1,18 @@
-import {Field, ObjectType, registerEnumType} from '@nestjs/graphql';
-import {Theme, Day} from '../constModel/const';
-
-registerEnumType(Theme, {
-  name: 'Theme',
-});
-
-registerEnumType(Day, {
-  name: 'Day',
-});
-
-@ObjectType({description: 'cafe.info.workTime'})
-class WorkTime {
-  @Field(() => [Day])
-  day!: Day[];
-
-  @Field({nullable: true})
-  startTime!: string;
-
-  @Field({nullable: true})
-  endTime!: string;
-}
-
-@ObjectType({description: 'cafe.info'})
-class Info {
-  @Field()
-  address!: string;
-
-  @Field()
-  workTime!: WorkTime;
-}
-
-@ObjectType({description: 'cafe.location'})
-class Location {
-  @Field()
-  x!: number;
-
-  @Field()
-  y!: number;
-}
+import {Field, ObjectType} from '@nestjs/graphql';
+import {Theme} from '../constModel/const';
+import {CafeUser} from './cafe.user.model';
+import {Info, Location} from './cafe.model';
 
 @ObjectType({description: 'cafe.cafeUserList'})
 class CafeUserList {
-  @Field()
-  userList!: string[];
+  @Field(() => [CafeUser])
+  userList!: CafeUser[];
 
   @Field()
   count!: number;
 }
 
+//카페 카드 상위 객체
 @ObjectType({description: 'cafe card'})
 export class CafeCard {
   @Field({description: 'object id'})
@@ -62,7 +27,7 @@ export class CafeCard {
   @Field()
   contact!: string;
 
-  @Field()
+  @Field({nullable: false})
   location!: Location;
 
   @Field(() => [Theme])

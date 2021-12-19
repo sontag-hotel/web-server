@@ -5,6 +5,7 @@ import {CafeUser, CafeUserSchema} from './schemas/cafeUser.schema';
 import {CafeService} from './cafe.service';
 import {CafeResolver} from './cafe.resolver';
 
+//카페 메인 모듈
 @Module({
   imports: [
     MongooseModule.forFeature([

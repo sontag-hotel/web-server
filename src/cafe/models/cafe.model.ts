@@ -10,7 +10,7 @@ registerEnumType(Day, {
 });
 
 @ObjectType({description: 'cafe.info.workTime'})
-class WorkTime {
+export class WorkTime {
   @Field(() => [Day])
   day!: Day[];
 
@@ -22,7 +22,7 @@ class WorkTime {
 }
 
 @ObjectType({description: 'cafe.info'})
-class Info {
+export class Info {
   @Field()
   address!: string;
 
@@ -31,7 +31,7 @@ class Info {
 }
 
 @ObjectType({description: 'cafe.location'})
-class Location {
+export class Location {
   @Field()
   x!: number;
 
@@ -39,6 +39,7 @@ class Location {
   y!: number;
 }
 
+//실제 적용되는 가장 상위 카페 객체 모델
 @ObjectType({description: 'cafe'})
 export class Cafe {
   @Field({description: 'object id'})

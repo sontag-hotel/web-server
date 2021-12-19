@@ -10,7 +10,7 @@ registerEnumType(Theme, {
   name: 'Theme',
 });
 
-//새로운 카페 등록 시 input 구조
+//새로운 카페 등록 시 input 구조 지정
 @InputType({description: 'New cafe create mutation args'})
 export class CreateCafeArgs {
   @Field({nullable: true})

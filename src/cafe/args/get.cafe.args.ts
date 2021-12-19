@@ -1,6 +1,7 @@
 import {Field, ArgsType, registerEnumType} from '@nestjs/graphql';
 import {Theme} from '../constModel/const';
 
+//theme enum 지정
 registerEnumType(Theme, {
   name: 'Theme',
 });

@@ -65,9 +65,40 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+"""cafe_users"""
+type CafeUser {
+  """object id"""
+  _id: String!
+  cafeId: String!
+  userId: String!
+  theme: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+"""cafe.cafeUserList"""
+type CafeUserList {
+  userList: [CafeUser!]!
+  count: Float!
+}
+
+"""cafe card"""
+type CafeCard {
+  """object id"""
+  _id: String!
+  name: String!
+  info: Info!
+  contact: String!
+  location: Location!
+  theme: [Theme!]!
+  cafeUserList: CafeUserList!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 type Query {
   getAllCafe: [Cafe!]!
-  Cafe(theme: Theme!): [Cafe!]
+  getCafe(theme: Theme!): [CafeCard!]
 }
 
 type Mutation {

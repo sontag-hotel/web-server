@@ -35,6 +35,7 @@ class Location {
   y!: number;
 }
 
+//mongodb에 적용되는 cafe 스키마
 @Schema({collection: 'cafes', versionKey: false})
 export class Cafe {
   @Prop()

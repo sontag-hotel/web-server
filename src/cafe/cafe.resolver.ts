@@ -20,7 +20,7 @@ export class CafeResolver {
   /* ------  Usage Method  ------ */
 
   //테마별 카페 query method
-  @Query(() => [Cafe], {name: Cafe.name, nullable: true})
+  @Query(() => [CafeCard], {nullable: true})
   async getCafe(@Args() args: GetCafeArgs): Promise<CafeCard[]> {
     return await this.cafeService.findList(args.theme);
   }

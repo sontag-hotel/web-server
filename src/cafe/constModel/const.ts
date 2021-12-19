@@ -1,6 +1,4 @@
-export const DayArr = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-export const ThemeArr = ['MOOD', 'WORK', 'TASTE'];
-
+//typescript용 enum 지정
 export enum Day {
   MON = 'MON',
   TUE = 'TUE',
@@ -16,6 +14,7 @@ export enum Theme {
   TASTE = 'TASTE',
 }
 
+//enum value 선언
 export type DayType = 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT' | 'SUN';
 
 export type ThemeType = 'MOOD' | 'WORK' | 'TASTE';
