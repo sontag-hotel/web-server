@@ -1,4 +1,5 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
+import type {Schema as MongooseSchema} from 'mongoose';
 
 export type AccountDocument = Account & Document;
 
@@ -6,13 +7,16 @@ export type AccountDocument = Account & Document;
   collection: 'accounts',
 })
 export class Account {
-  _id!: string;
+  _id!: MongooseSchema.Types.ObjectId;
 
   @Prop({required: true})
   name!: string;
 
   @Prop({require: true})
   kakaoUid!: string;
+
+  @Prop({require: true})
+  introductionDesc!: string;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account);

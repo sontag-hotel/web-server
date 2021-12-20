@@ -52,8 +52,8 @@ export class KakaoClient {
 
     const response = await axios.post<ExchangeTokenResponse>(
       KakaoClient.EXCHANGE_TOKEN_URI,
+      params,
       {
-        params,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
         },
@@ -66,8 +66,9 @@ export class KakaoClient {
   async fetchUserProfile(accessToken: string): Promise<Profile> {
     const response = await axios.post<FetchUserInfoResponse>(
       KakaoClient.FETCH_USER_INFO_URI,
+      {},
       {
-        Headers: {
+        headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
         },

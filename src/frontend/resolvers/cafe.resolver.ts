@@ -1,9 +1,9 @@
 import {Resolver, Args, Query, Mutation} from '@nestjs/graphql';
-import {Cafe} from './models/cafe.model';
-import {CafeService} from './cafe.service';
-import {CreateCafeArgs} from './args/create.cafe.args';
-import {GetCafeArgs} from './args/get.cafe.args';
-import {CafeCard} from './models/cafe.card.model';
+import {Cafe} from '../../cafe/models/cafe.model';
+import {CafeService} from '../../cafe/cafe.service';
+import {CreateCafeArgs} from '../../cafe/args/create.cafe.args';
+import {GetCafeArgs} from '../../cafe/args/get.cafe.args';
+import {CafeCard} from '../../cafe/models/cafe.card.model';
 
 @Resolver(() => Cafe)
 export class CafeResolver {

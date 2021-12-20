@@ -3,7 +3,7 @@ import {MongooseModule} from '@nestjs/mongoose';
 import {Cafe, CafeSchema} from './schemas/cafe.schema';
 import {CafeUser, CafeUserSchema} from './schemas/cafeUser.schema';
 import {CafeService} from './cafe.service';
-import {CafeResolver} from './cafe.resolver';
+// import {CafeResolver} from '../frontend/resolvers/cafe.resolver';
 
 //카페 메인 모듈
 @Module({
@@ -13,6 +13,7 @@ import {CafeResolver} from './cafe.resolver';
       {name: CafeUser.name, schema: CafeUserSchema},
     ]),
   ],
-  providers: [CafeResolver, CafeService],
+  providers: [CafeService],
+  exports: [CafeService],
 })
 export class CafeModule {}

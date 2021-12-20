@@ -2,16 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Credential {
-  token: String!
-  me: Me!
-}
-
-type Me {
-  id: String!
-  name: String!
-}
-
 """cafe.info.workTime"""
 type WorkTime {
   day: [Day!]!
@@ -96,14 +86,37 @@ type CafeCard {
   updated_at: DateTime!
 }
 
+type Credential {
+  token: String!
+  me: Me!
+}
+
+type Me {
+  _id: String!
+
+  """이름"""
+  name: String!
+
+  """소개"""
+  introductionDesc: String!
+}
+
 type Query {
   getAllCafe: [Cafe!]!
   getCafe(theme: Theme!): [CafeCard!]
+  me: Me!
 }
 
 type Mutation {
-  loginKakao(code: String!, redirectURI: String!): Credential!
   createCafe(args: CreateCafeArgs!): Cafe!
+  loginKakao(code: String!, redirectURI: String!): Credential!
+  signup(
+    input: NewAccountInput!
+
+    """구글 액세스 토큰"""
+    accessToken: String!
+  ): Credential!
+  updateProfile(input: UpdateProfileInput!): Me!
 }
 
 """New cafe create mutation args"""
@@ -117,4 +130,20 @@ input CreateCafeArgs {
   contact: String
   locationX: Float
   locationY: Float
+}
+
+input NewAccountInput {
+  """이름"""
+  name: String!
+
+  """소개"""
+  introductionDesc: String!
+}
+
+input UpdateProfileInput {
+  """수정할 이름"""
+  name: String
+
+  """수정할 소개"""
+  introductionDesc: String
 }

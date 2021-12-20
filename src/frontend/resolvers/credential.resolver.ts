@@ -1,11 +1,12 @@
 import {Resolver, Args, Mutation, ResolveField, Parent} from '@nestjs/graphql';
 import {plainToClass} from 'class-transformer';
 import {Public} from 'src/common/decorator/public.decorator';
-import {LoginKakaoArgs} from './args/login-kakao.args';
-import {MembershipService} from './membership.service';
-import {Credential} from './graphql/credential.model';
-import {Me} from './graphql/me.model';
-import {UnexpectedAccountException} from './errors';
+import {LoginKakaoArgs} from '../args/login-kakao.args';
+import {SignupArgs} from '../args/signup.args';
+import {MembershipService} from '../../membership/membership.service';
+import {Credential} from '../graphql/credential.model';
+import {Me} from '../graphql/me.model';
+import {UnexpectedAccountException} from '../../membership/errors';
 
 @Resolver(() => Credential)
 export class CredentialResolver {
@@ -34,6 +35,22 @@ export class CredentialResolver {
     const {_id} = this.membershipService.decodeJWT(token);
     const me = this.membershipService.findAccount(_id);
 
-    return plainToClass(Me, me);
+    return me;
+  }
+
+  @Mutation(() => Credential)
+  @Public()
+  async signup(@Args() args: SignupArgs) {
+    const newAccountId = await this.membershipService.signup(
+      args.input,
+      args.accessToken
+    );
+    const newAccount = await this.membershipService.findAccount(newAccountId);
+    if (newAccount) {
+      const accessToken = this.membershipService.generateJWT(newAccount);
+      return plainToClass(Credential, {token: accessToken});
+    } else {
+      throw new UnexpectedAccountException();
+    }
   }
 }
