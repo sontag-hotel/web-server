@@ -111,7 +111,7 @@ type Query {
 }
 
 type Mutation {
-  tokenCheck: String!
+  tokenCheck(args: String!): String!
   createCafe(args: CreateCafeArgs!): Cafe!
   loginKakao(code: String!, redirectURI: String!): Credential!
   signup(

@@ -1,6 +1,7 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {Theme} from '../constModel/const';
 import {Document} from 'mongoose';
+import type {Schema as MongooseSchema} from 'mongoose';
 
 export type CafeUserDocument = CafeUser & Document;
 
@@ -8,7 +9,7 @@ export type CafeUserDocument = CafeUser & Document;
 @Schema({collection: 'cafe_users', versionKey: false})
 export class CafeUser {
   @Prop()
-  userId!: string;
+  userId!: MongooseSchema.Types.ObjectId;
 
   @Prop()
   cafeId!: string;

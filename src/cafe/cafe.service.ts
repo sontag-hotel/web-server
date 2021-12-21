@@ -3,7 +3,7 @@ import {InjectModel} from '@nestjs/mongoose';
 import {Model, Types} from 'mongoose';
 import {Cafe, CafeDocument} from './schemas/cafe.schema';
 import {CafeUser, CafeUserDocument} from './schemas/cafeUser.schema';
-import {ThemeType} from './constModel/const';
+import {Theme, ThemeType} from './constModel/const';
 import {CreateArgs} from './constModel/interface';
 import {CafeCard} from './models/cafe.card.model';
 import {GetCafeAroundArgs} from './args/get.cafe.around.args';
@@ -25,6 +25,7 @@ export class CafeService {
     return await this.cafeModel.find();
   }
 
+  //헤더 파싱 테스트 mutation method
   tokenCheck(): string {
     return 'hi';
   }
@@ -151,7 +152,7 @@ export class CafeService {
   }
 
   //카페 등록
-  async create(Args: CreateArgs): Promise<Cafe> {
+  async create(Args: CreateArgs): Promise<CafeUser[]> {
     //해당 유저가 이미 3개의 카페를 입력한 테마에 등록했는지 확인
     //userId-theme통해 3개 이상이면? 카페 리스트 3개 주기 아니면 go
     //const themeCafeList =  await cafeUserModel.find({
@@ -170,6 +171,53 @@ export class CafeService {
     //테마에 없으면 하나 push 해주고 cafe_users에 생성
     //애초에 없는 카페였으면 생성해주고 cafe_user에 생성
     // }
+
+    //테마 이미 3개 등록됐는지 확인
+    const cafeThemeList = await this.cafeUserModel.count({
+      userId: Args.userId,
+      theme: Args.theme as Theme,
+    });
+
+    //테마가 3개 이상이면
+    if (cafeThemeList >= 3) {
+      const originThemeCafeList = await this.cafeUserModel.find({
+        userId: Args.userId,
+        theme: Args.theme as Theme,
+      });
+      //3개의 리스트 반환
+      return originThemeCafeList;
+    } else {
+      //3개 미만일 때
+      const existCheck = await this.cafeModel.findOne({
+        kakaoPlaceId: Args.kakaoPlaceId,
+      });
+      //이미 등록하려는 카페가 있는 경우
+      if (existCheck) {
+        //등록하고 싶은 테마도 있는경우
+        if (existCheck.theme.indexOf(Args.theme as Theme) !== -1) {
+          const newCafeUser = await this.cafeUserModel.create({
+            userId: Args.userId,
+            cafeId: existCheck._id,
+            theme: Args.theme,
+            created_at: new Date(),
+            updated_at: new Date(),
+          });
+
+          //본인도 이 카페에 테마 등록했다는 데이터 리턴
+          return [newCafeUser];
+        } else {
+          //카페는 이미 있는데 테마가 없는 경우
+          const updateTargetCafe = await this.cafeModel.findOneAndUpdate(
+            {
+              kakaoPlaceId: Args.kakaoPlaceId,
+            },
+            {
+              theme: existCheck.theme.push(Args.theme as Theme),
+            }
+          );
+        }
+      }
+    }
 
     const newCafe = await this.cafeModel.create(
       // {
