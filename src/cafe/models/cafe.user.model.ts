@@ -8,8 +8,8 @@ export class CafeUser {
   @Field({description: 'object id'})
   _id?: string;
 
-  @Field()
-  cafeId!: string;
+  @Field(() => String)
+  cafeId!: Types.ObjectId;
 
   @Field(() => String)
   userId!: Types.ObjectId;

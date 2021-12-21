@@ -10,8 +10,8 @@ export class CafeUser {
   @Prop({type: Types.ObjectId})
   userId!: Types.ObjectId;
 
-  @Prop()
-  cafeId!: string;
+  @Prop({type: Types.ObjectId})
+  cafeId!: Types.ObjectId;
 
   @Prop({type: String})
   theme!: Theme;

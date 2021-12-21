@@ -60,6 +60,7 @@ export class CafeResolver {
   ): Promise<CafeUser[]> {
     const token = context.req.get('Authorization');
     const userData = await this.membershipService.decodeJWT(token);
+    console.log("user data check", userData)
     return await this.cafeService.create({
       ...args,
       userId: new Types.ObjectId(userData._id.toString()),
