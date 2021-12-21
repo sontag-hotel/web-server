@@ -172,6 +172,8 @@ export class CafeService {
     //애초에 없는 카페였으면 생성해주고 cafe_user에 생성
     // }
 
+    //다른 형태의 리턴값 처리 필요
+
     //테마 이미 3개 등록됐는지 확인
     const cafeThemeList = await this.cafeUserModel.count({
       userId: Args.userId,
@@ -212,55 +214,54 @@ export class CafeService {
               kakaoPlaceId: Args.kakaoPlaceId,
             },
             {
-              theme: existCheck.theme.push(Args.theme as Theme),
+              theme: existCheck.theme.push(Args.theme as Theme) as any,
             }
           );
+
+          console.log('theme change check', updateTargetCafe);
+
+          const newCafeUser = await this.cafeUserModel.create({
+            userId: Args.userId,
+            cafeId: existCheck._id,
+            theme: Args.theme,
+            created_at: new Date(),
+            updated_at: new Date(),
+          });
+
+          return [newCafeUser];
         }
+      } else {
+        const newCafe = await this.cafeModel.create({
+          name: Args.name ? Args.name : null,
+          info: {
+            address: Args.address ? Args.address : null,
+            workTime: {
+              day: Args.day ? Args.day : [],
+              startTime: Args.startTime ? Args.startTime : null,
+              endTime: Args.endTime ? Args.endTime : null,
+            },
+          },
+          contact: Args.contact ? Args.contact : null,
+          location: {
+            x: Args.locationX ? Args.locationX : null,
+            y: Args.locationY ? Args.locationY : null,
+          },
+          theme: Args.theme ? [Args.theme] : [],
+          kakaoPlcaeId: Args.kakaoPlaceId ? Args.kakaoPlaceId : null,
+          created_at: new Date(),
+          updated_at: new Date(),
+        });
+        const newCafeUser = await this.cafeUserModel.create({
+          userId: new Types.ObjectId(newCafe._id), //나중에 유저 object id 또는 그냥 id값 받아서 입력
+          cafeId: new Types.ObjectId(newCafe._id),
+          theme: Args.theme,
+          created_at: new Date(),
+          updated_at: new Date(),
+        });
+
+        console.log('new cafe user data', newCafeUser);
+        return [newCafeUser];
       }
     }
-
-    const newCafe = await this.cafeModel.create(
-      // {
-      //   name: Args.name,
-      //   info: {
-      //     address: Args.address,
-      //   },
-      //   location: {
-      //     x: Args.locationX,
-      //     y: Args.locationY,
-      //   },
-      // },
-      {
-        name: Args.name ? Args.name : null,
-        info: {
-          address: Args.address ? Args.address : null,
-          workTime: {
-            day: Args.day ? Args.day : [],
-            startTime: Args.startTime ? Args.startTime : null,
-            endTime: Args.endTime ? Args.endTime : null,
-          },
-        },
-        contact: Args.contact ? Args.contact : null,
-        location: {
-          x: Args.locationX ? Args.locationX : null,
-          y: Args.locationY ? Args.locationY : null,
-        },
-        theme: Args.theme ? [Args.theme] : [],
-        kakaoPlcaeId: Args.kakaoPlaceId ? Args.kakaoPlaceId : null,
-        created_at: new Date(),
-        updated_at: new Date(),
-      }
-    );
-
-    const newCafeUser = await this.cafeUserModel.create({
-      userId: new Types.ObjectId(newCafe._id), //나중에 유저 object id 또는 그냥 id값 받아서 입력
-      cafeId: new Types.ObjectId(newCafe._id),
-      theme: Args.theme,
-      created_at: new Date(),
-      updated_at: new Date(),
-    });
-
-    console.log('new cafe user data', newCafeUser);
-    return newCafe;
   }
 }
