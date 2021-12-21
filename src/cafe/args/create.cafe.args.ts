@@ -39,4 +39,7 @@ export class CreateCafeArgs {
 
   @Field({nullable: true})
   locationY?: number;
+
+  @Field({nullable: true})
+  kakaoPlaceId?: number;
 }

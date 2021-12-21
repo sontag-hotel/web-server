@@ -18,6 +18,11 @@ export class CafeResolver {
     return await this.cafeService.find();
   }
 
+  @Mutation(() => String)
+  tokenCheck(): string {
+    return this.cafeService.tokenCheck();
+  }
+
   /* ------  Usage Method  ------ */
 
   //테마별 카페 query method

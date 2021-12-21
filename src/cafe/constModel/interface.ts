@@ -11,6 +11,7 @@ export interface CreateArgs {
   contact?: string;
   locationX?: number;
   locationY?: number;
+  kakaoPlaceId?: number;
 }
 
 //테마별 카페 조회시 interface

@@ -61,6 +61,9 @@ export class Cafe {
   theme!: Theme[];
 
   @Field()
+  kakaoPlaceId!: number;
+
+  @Field()
   created_at!: Date;
 
   @Field()

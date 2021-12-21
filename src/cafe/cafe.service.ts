@@ -25,6 +25,10 @@ export class CafeService {
     return await this.cafeModel.find();
   }
 
+  tokenCheck(): string {
+    return 'hi';
+  }
+
   /* ------  Usage Method  ------ */
 
   //테마별 카페 조회
@@ -48,6 +52,7 @@ export class CafeService {
           theme: 1,
           contact: 1,
           location: 1,
+          kakaoPlaceId: 1,
           cafeUserList: {
             userList: '$result',
             count: {$size: '$result'},
@@ -91,6 +96,7 @@ export class CafeService {
             theme: 1,
             contact: 1,
             location: 1,
+            kakaoPlaceId: 1,
             cafeUserList: {
               userList: '$result',
               count: {$size: '$result'},
@@ -130,6 +136,7 @@ export class CafeService {
             theme: 1,
             contact: 1,
             location: 1,
+            kakaoPlaceId: 1,
             cafeUserList: {
               userList: '$result',
               count: {$size: '$result'},
@@ -191,6 +198,7 @@ export class CafeService {
           y: Args.locationY ? Args.locationY : null,
         },
         theme: Args.theme ? [Args.theme] : [],
+        kakaoPlcaeId: Args.kakaoPlaceId ? Args.kakaoPlaceId : null,
         created_at: new Date(),
         updated_at: new Date(),
       }

@@ -54,6 +54,9 @@ export class Cafe {
   theme!: Theme[];
 
   @Prop()
+  kakaoPlaceId!: number;
+
+  @Prop()
   created_at!: Date;
 
   @Prop()
