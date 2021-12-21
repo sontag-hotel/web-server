@@ -1,5 +1,5 @@
 import {DayType, ThemeType} from './const'; //인터페이스에는 타입을 import
-import type {Schema as MongooseSchema} from 'mongoose';
+import {Types} from 'mongoose';
 
 //카페 생성시 argument interface
 export interface CreateArgs {
@@ -13,7 +13,7 @@ export interface CreateArgs {
   locationX?: number;
   locationY?: number;
   kakaoPlaceId?: number;
-  userId?: MongooseSchema.Types.ObjectId;
+  userId?: Types.ObjectId;
 }
 
 //테마별 카페 조회시 interface

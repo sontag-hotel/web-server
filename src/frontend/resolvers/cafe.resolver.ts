@@ -7,6 +7,7 @@ import {CreateCafeArgs} from '../../cafe/args/create.cafe.args';
 import {GetCafeArgs} from '../../cafe/args/get.cafe.args';
 import {GetCafeAroundArgs} from '../../cafe/args/get.cafe.around.args';
 import {MembershipService} from 'src/membership/membership.service';
+import {Types} from 'mongoose';
 
 @Resolver(() => Cafe)
 export class CafeResolver {
@@ -59,6 +60,9 @@ export class CafeResolver {
   ): Promise<CafeUser[]> {
     const token = context.req.get('Authorization');
     const userData = await this.membershipService.decodeJWT(token);
-    return await this.cafeService.create({...args, userId: userData._id});
+    return await this.cafeService.create({
+      ...args,
+      userId: new Types.ObjectId(userData._id.toString()),
+    });
   }
 }

@@ -112,7 +112,7 @@ type Query {
 
 type Mutation {
   tokenCheck(args: String!): String!
-  createCafe(args: CreateCafeArgs!): Cafe!
+  createCafe(args: CreateCafeArgs!): [CafeUser!]!
   loginKakao(code: String!, redirectURI: String!): Credential!
   signup(
     input: NewAccountInput!
