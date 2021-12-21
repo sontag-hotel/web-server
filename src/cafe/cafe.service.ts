@@ -6,6 +6,7 @@ import {CafeUser, CafeUserDocument} from './schemas/cafeUser.schema';
 import {ThemeType} from './constModel/const';
 import {CreateArgs} from './constModel/interface';
 import {CafeCard} from './models/cafe.card.model';
+import {GetCafeAroundArgs} from './args/get.cafe.around.args';
 
 @Injectable()
 export class CafeService {
@@ -56,6 +57,89 @@ export class CafeService {
         },
       },
     ]);
+    return targetList;
+  }
+
+  async findAround(args: GetCafeAroundArgs): Promise<CafeCard[]> {
+    let targetList;
+    if (!args.theme) {
+      targetList = await this.cafeModel.aggregate([
+        {
+          $match: {
+            'location.x': {
+              $gte: args.locationX - 0.00988,
+              $lte: args.locationX + 0.00988,
+            },
+            'location.y': {
+              $gte: args.locationY - 0.00988,
+              $lte: args.locationY + 0.00988,
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: 'cafe_users',
+            localField: '_id',
+            foreignField: 'cafeId',
+            as: 'result',
+          },
+        },
+        {
+          $project: {
+            name: 1,
+            info: 1,
+            theme: 1,
+            contact: 1,
+            location: 1,
+            cafeUserList: {
+              userList: '$result',
+              count: {$size: '$result'},
+            },
+            created_at: 1,
+            updated_at: 1,
+          },
+        },
+      ]);
+    } else {
+      targetList = await this.cafeModel.aggregate([
+        {
+          $match: {
+            theme: {$in: [args.theme]},
+            'location.x': {
+              $gte: args.locationX - 0.00988,
+              $lte: args.locationX + 0.00988,
+            },
+            'location.y': {
+              $gte: args.locationY - 0.00988,
+              $lte: args.locationY + 0.00988,
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: 'cafe_users',
+            localField: '_id',
+            foreignField: 'cafeId',
+            as: 'result',
+          },
+        },
+        {
+          $project: {
+            name: 1,
+            info: 1,
+            theme: 1,
+            contact: 1,
+            location: 1,
+            cafeUserList: {
+              userList: '$result',
+              count: {$size: '$result'},
+            },
+            created_at: 1,
+            updated_at: 1,
+          },
+        },
+      ]);
+    }
     return targetList;
   }
 
