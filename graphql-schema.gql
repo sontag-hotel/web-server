@@ -40,6 +40,7 @@ type Cafe {
   contact: String!
   location: Location!
   theme: [Theme!]!
+  kakaoPlaceId: Float!
   created_at: DateTime!
   updated_at: DateTime!
 }
@@ -81,6 +82,7 @@ type CafeCard {
   contact: String!
   location: Location!
   theme: [Theme!]!
+  kakaoPlaceId: Float!
   cafeUserList: CafeUserList!
   created_at: DateTime!
   updated_at: DateTime!
@@ -109,7 +111,8 @@ type Query {
 }
 
 type Mutation {
-  createCafe(args: CreateCafeArgs!): Cafe!
+  tokenCheck(args: String!): String!
+  createCafe(args: CreateCafeArgs!): [CafeUser!]!
   loginKakao(code: String!, redirectURI: String!): Credential!
   signup(
     input: NewAccountInput!
@@ -131,6 +134,7 @@ input CreateCafeArgs {
   contact: String
   locationX: Float
   locationY: Float
+  kakaoPlaceId: Float
 }
 
 input NewAccountInput {
