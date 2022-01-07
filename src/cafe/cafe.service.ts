@@ -7,6 +7,8 @@ import {Theme, ThemeType} from './constModel/const';
 import {CreateArgs} from './constModel/interface';
 import {CafeCard} from './models/cafe.card.model';
 import {GetCafeAroundArgs} from './args/get.cafe.around.args';
+import {DuplicateCafeUserThemeError} from './error/cafe';
+// import {ExpiredTokenException} from '../cafe/error/token';
 
 @Injectable()
 export class CafeService {
@@ -26,8 +28,15 @@ export class CafeService {
   }
 
   //헤더 파싱 테스트 mutation method
-  tokenCheck(): string {
-    return 'hi';
+  //만료 토큰 에러처리
+  tokenCheck(userData: any): string {
+    console.log('userData check', userData);
+
+    //현재는 만료된 토큰에 대해서도 접속할 수 있도록 풀어두었음
+    // if (userData.exp * 1000 < new Date().getTime()) {
+    //   throw new ExpiredTokenException();
+    // }
+    return 'You have validate token';
   }
 
   /* ------  Usage Method  ------ */
@@ -180,12 +189,16 @@ export class CafeService {
       theme: Args.theme as Theme,
     });
 
+    console.log('theme list count', cafeThemeList);
+
     //테마가 3개 이상이면
     if (cafeThemeList >= 3) {
       const originThemeCafeList = await this.cafeUserModel.find({
         userId: Args.userId,
         theme: Args.theme as Theme,
       });
+
+      console.log('real over 3 theme list', originThemeCafeList);
       //3개의 리스트 반환
       return originThemeCafeList;
     } else {
@@ -193,8 +206,22 @@ export class CafeService {
       const existCheck = await this.cafeModel.findOne({
         kakaoPlaceId: Args.kakaoPlaceId,
       });
+
+      console.log('exist check : ', existCheck);
       //이미 등록하려는 카페가 있는 경우
       if (existCheck) {
+        //이미 해당 카페에 해당 테마 등록했는지 확인
+        const existCafeUserThemeCheck = await this.cafeUserModel.findOne({
+          cafeId: existCheck._id,
+          userId: Args.userId,
+          theme: Args.theme as Theme,
+        });
+
+        //중복 데이터 케이스 에러 리턴
+        if (existCafeUserThemeCheck) {
+          throw new DuplicateCafeUserThemeError();
+        }
+
         //등록하고 싶은 테마도 있는경우
         if (existCheck.theme.indexOf(Args.theme as Theme) !== -1) {
           const newCafeUser = await this.cafeUserModel.create({
@@ -205,6 +232,8 @@ export class CafeService {
             updated_at: new Date(),
           });
 
+          console.log('new cafe user data', newCafeUser);
+
           //본인도 이 카페에 테마 등록했다는 데이터 리턴
           return [newCafeUser];
         } else {
@@ -214,8 +243,9 @@ export class CafeService {
               kakaoPlaceId: Args.kakaoPlaceId,
             },
             {
-              theme: existCheck.theme.push(Args.theme as Theme) as any,
-            }
+              $push: {theme: Args.theme},
+            },
+            {returnOriginal: false}
           );
 
           console.log('theme change check', updateTargetCafe);
@@ -231,6 +261,7 @@ export class CafeService {
           return [newCafeUser];
         }
       } else {
+        //카페 자체가 등록이 안돼있는 경우
         const newCafe = await this.cafeModel.create({
           name: Args.name ? Args.name : null,
           info: {
@@ -247,12 +278,15 @@ export class CafeService {
             y: Args.locationY ? Args.locationY : null,
           },
           theme: Args.theme ? [Args.theme] : [],
-          kakaoPlcaeId: Args.kakaoPlaceId ? Args.kakaoPlaceId : null,
+          kakaoPlaceId: Args.kakaoPlaceId ? Args.kakaoPlaceId : null,
           created_at: new Date(),
           updated_at: new Date(),
         });
+
+        console.log('new cafe check', newCafe);
+
         const newCafeUser = await this.cafeUserModel.create({
-          userId: new Types.ObjectId(newCafe._id), //나중에 유저 object id 또는 그냥 id값 받아서 입력
+          userId: Args.userId,
           cafeId: new Types.ObjectId(newCafe._id),
           theme: Args.theme,
           created_at: new Date(),

@@ -88,6 +88,13 @@ type CafeCard {
   updated_at: DateTime!
 }
 
+"""Normalized_Response_Model"""
+type NormalizedResponse {
+  data: [CafeUser!]!
+  message: String!
+  code: Float!
+}
+
 type Credential {
   token: String!
   me: Me!
@@ -111,8 +118,8 @@ type Query {
 }
 
 type Mutation {
-  tokenCheck(args: String!): String!
-  createCafe(args: CreateCafeArgs!): [CafeUser!]!
+  tokenCheck: String!
+  createCafe(args: CreateCafeArgs!): NormalizedResponse!
   loginKakao(code: String!, redirectURI: String!): Credential!
   signup(
     input: NewAccountInput!

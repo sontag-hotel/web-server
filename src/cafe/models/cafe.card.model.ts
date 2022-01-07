@@ -34,7 +34,7 @@ export class CafeCard {
   theme!: Theme[];
 
   @Field()
-  kakaoPlaceId!: Number;
+  kakaoPlaceId!: number;
 
   @Field()
   cafeUserList!: CafeUserList;
